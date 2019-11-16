@@ -27,3 +27,22 @@ git pull
 cd -
 bosh deploy sample-webapp-using-redis-boshrelease/manifests/sample-webapp-using-redis.yml
 ```
+
+## Kubernetes
+
+### Create Fissile image
+
+```plain
+bosh create-release \
+    releases/sample-webapp-using-redis/sample-webapp-using-redis-1.0.0.yml \
+    --tarball tmp/sample-webapp-using-redis-1.0.0.tgz
+
+fissile build release-images \
+    --stemcell splatform/fissile-stemcell-opensuse:42.3-38.g82067a9-30.95 \
+    --name sample-webapp-using-redis
+    --version $(bosh int <(tar Oxzf tmp/sample-webapp-using-redis-*.tgz release.MF) --path /version) \
+    --url tmp/sample-webapp-using-redis-*.tgz \
+    --sha1 $(sha1sum tmp/sample-webapp-using-redis-*.tgz | awk '{print $1}') \
+    -w $PWD/tmp/fissile \
+    --final-releases-dir releases
+```
