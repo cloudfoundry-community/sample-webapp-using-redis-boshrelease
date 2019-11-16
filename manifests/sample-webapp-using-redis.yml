@@ -60,6 +60,9 @@ releases:
   url: https://s3.amazonaws.com/redis-boshrelease/compiled-releases/redis/redis-15.3.3-ubuntu-xenial-456.3-20190815-004641-067837581-20190815004641.tgz
   version: 15.3.3
 - name: sample-webapp-using-redis
-  sha1: 731d839732c7f92bf9fb02ba7608001a814d80e9
-  url: https://github.com/cloudfoundry-community/sample-webapp-using-redis-boshrelease/releases/download/v1.0.0/sample-webapp-using-redis-1.0.0.tgz
+  sha1: 14cfbe45fef2f30fd839e734fe74ec9d577f905d
+  stemcell:
+    os: ubuntu-xenial
+    version: "456.58"
+  url: https://s3.amazonaws.com/sample-webapp-using-redis-boshrelease/compiled-releases/sample-webapp-using-redis/sample-webapp-using-redis-1.0.0-ubuntu-xenial-456.58-20191116-102249-749414143-20191116102254.tgz
   version: 1.0.0
