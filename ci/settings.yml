@@ -9,6 +9,10 @@ meta:
 
   initial_version: 1.0.0
 
+  image:
+    name: starkandwayne/concourse-go
+    tag: "1.13"
+
   git:
     email:  ((git-commit-email))
     name:   ((git-commit-name))
