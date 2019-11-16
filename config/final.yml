@@ -1,0 +1,6 @@
+---
+blobstore:
+  provider: s3
+  options:
+    bucket_name: sample-webapp-using-redis-boshrelease
+final_name: sample-webapp-using-redis

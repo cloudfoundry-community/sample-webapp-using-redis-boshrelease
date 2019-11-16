@@ -1,0 +1,6 @@
+---
+name: sample-webapp-using-redis
+packages: []
+templates:
+  ignoreme: ignoreme
+properties: {}

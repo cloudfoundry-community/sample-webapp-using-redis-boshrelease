@@ -1,0 +1,7 @@
+---
+- type: replace
+  path: /releases/name=sample-webapp-using-redis
+  value:
+    name: sample-webapp-using-redis
+    version: create
+    url: file://.
