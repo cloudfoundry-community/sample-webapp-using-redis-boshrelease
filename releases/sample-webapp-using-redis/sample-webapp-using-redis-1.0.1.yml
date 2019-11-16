@@ -1,0 +1,21 @@
+name: sample-webapp-using-redis
+version: 1.0.1
+commit_hash: 682349e
+uncommitted_changes: false
+jobs:
+- name: sample-webapp-using-redis
+  version: f4e37c139aea9623da05554c82efa210d0a4b9d86278a9081db0af63a4baa33d
+  fingerprint: f4e37c139aea9623da05554c82efa210d0a4b9d86278a9081db0af63a4baa33d
+  sha1: sha256:75ddddb1d9ea989c00a7f0eaac077e7d1630a7b858c0afb696697caefb091f85
+  packages:
+  - sample-webapp-using-redis
+packages:
+- name: sample-webapp-using-redis
+  version: 5275fcb11e0837cf0b9f29214c9f9db8d66d22bb33fc1fd3faa4b3f6e0f7193c
+  fingerprint: 5275fcb11e0837cf0b9f29214c9f9db8d66d22bb33fc1fd3faa4b3f6e0f7193c
+  sha1: sha256:9612ff55aed7a250bd9a9a5b53257b8f8810a391d243d7657e3afc6861c99b07
+  dependencies: []
+license:
+  version: c606d0dbeb0f4f23c385959efae604644419329f16b5ec85ff1264ebb8ef59b9
+  fingerprint: c606d0dbeb0f4f23c385959efae604644419329f16b5ec85ff1264ebb8ef59b9
+  sha1: sha256:4ee4bbfcbb199c67c5de51f4f39f8ad195d52e4e225e86d64d97eb6f7ed9f6e9
