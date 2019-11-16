@@ -50,6 +50,7 @@ func main() {
 			// defaults to 0
 		} else if err != nil {
 			fmt.Fprintf(w, "Cannot connect to Redis backend\n")
+			return
 		}
 		val++
 		client.Set(redisCounterKey, strconv.Itoa(val), 0)
