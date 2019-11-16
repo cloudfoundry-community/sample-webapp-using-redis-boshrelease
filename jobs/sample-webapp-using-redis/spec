@@ -1,6 +1,17 @@
 ---
 name: sample-webapp-using-redis
-packages: []
+
+packages:
+- sample-webapp-using-redis
+
 templates:
-  ignoreme: ignoreme
-properties: {}
+  config/bpm.yml: config/bpm.yml
+
+consumes:
+- name: redis
+  type: redis
+
+properties:
+  port:
+    description: Bind to this port
+    default: 8080

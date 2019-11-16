@@ -1,0 +1,19 @@
+---
+processes:
+- name: sample-webapp-using-redis
+  executable: /var/vcap/packages/sample-webapp-using-redis/bin/sample-webapp-using-redis
+  args: []
+  ephemeral_disk: true
+  persistent_disk: false
+  env:
+    PORT: <%= p("port") %>
+    REDIS_HOST: "<%= link('redis').instances[0].address %>"
+    REDIS_PORT: "<%= link('redis').p('port') %>"
+    REDIS_PASSWORD: "<%= link('redis').p('password') %>"
+  limits:
+    memory: 128M
+    open_files: 1024
+
+# examples/docs at:
+# - https://github.com/cloudfoundry-incubator/bpm-release/blob/master/jobs/test-server/templates/bpm.yml.erb
+# - https://github.com/cloudfoundry-incubator/bpm-release/tree/master/docs

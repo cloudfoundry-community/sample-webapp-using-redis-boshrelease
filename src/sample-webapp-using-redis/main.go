@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
 	"os"
 	"strconv"
 
@@ -9,6 +11,11 @@ import (
 )
 
 func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
 	redisHost := os.Getenv("REDIS_HOST")
 	if redisHost == "" {
 		redisHost = "localhost"
@@ -26,10 +33,12 @@ func main() {
 	redisAddr := fmt.Sprintf("%s:%s", redisHost, redisPort)
 	fmt.Printf("Connecting redis server %s...\n", redisAddr)
 	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
+		Addr:     redisAddr,
 		Password: redisPassword,
 		DB:       int(redisDB), // use default DB
 	})
 	pong, err := client.Ping().Result()
 	fmt.Println(pong, err)
+
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }

@@ -1,0 +1,5 @@
+check process sample-webapp-using-redis
+  with pidfile /var/vcap/sys/run/bpm/sample-webapp-using-redis/sample-webapp-using-redis.pid
+  start program "/var/vcap/jobs/bpm/bin/bpm start sample-webapp-using-redis"
+  stop program "/var/vcap/jobs/bpm/bin/bpm stop sample-webapp-using-redis"
+  group vcap
