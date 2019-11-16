@@ -1,0 +1,27 @@
+name: sample-webapp-using-redis
+version: 1.0.0
+commit_hash: c4735a2
+uncommitted_changes: false
+jobs:
+- name: sample-webapp-using-redis
+  version: f4e37c139aea9623da05554c82efa210d0a4b9d86278a9081db0af63a4baa33d
+  fingerprint: f4e37c139aea9623da05554c82efa210d0a4b9d86278a9081db0af63a4baa33d
+  sha1: sha256:75ddddb1d9ea989c00a7f0eaac077e7d1630a7b858c0afb696697caefb091f85
+  packages:
+  - sample-webapp-using-redis
+packages:
+- name: golang-1-linux
+  version: 3b122faa904670d6eeb0c0c8296791b8fc3512a553a0704cf88d22e8a492dc81
+  fingerprint: 3b122faa904670d6eeb0c0c8296791b8fc3512a553a0704cf88d22e8a492dc81
+  sha1: sha256:8fcfe5d170000358d3fbb99401c5c47b73c253389e94b6dad4e5627ed9aa50f5
+  dependencies: []
+- name: sample-webapp-using-redis
+  version: fa4243eeb6248938ec6baf115bd97b1d94249d6d378529d38964fb184ef07cba
+  fingerprint: fa4243eeb6248938ec6baf115bd97b1d94249d6d378529d38964fb184ef07cba
+  sha1: sha256:2365434082173b6241a2442653550aceb7a2646ebb1bd0da094d3688b844e527
+  dependencies:
+  - golang-1-linux
+license:
+  version: c606d0dbeb0f4f23c385959efae604644419329f16b5ec85ff1264ebb8ef59b9
+  fingerprint: c606d0dbeb0f4f23c385959efae604644419329f16b5ec85ff1264ebb8ef59b9
+  sha1: sha256:4ee4bbfcbb199c67c5de51f4f39f8ad195d52e4e225e86d64d97eb6f7ed9f6e9
