@@ -39,7 +39,7 @@ bosh create-release \
 
 fissile build release-images \
     --stemcell splatform/fissile-stemcell-opensuse:42.3-38.g82067a9-30.95 \
-    --name sample-webapp-using-redis
+    --name sample-webapp-using-redis \
     --version $(bosh int <(tar Oxzf tmp/sample-webapp-using-redis-*.tgz release.MF) --path /version) \
     --url tmp/sample-webapp-using-redis-*.tgz \
     --sha1 $(sha1sum tmp/sample-webapp-using-redis-*.tgz | awk '{print $1}') \

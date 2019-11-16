@@ -1,6 +1,5 @@
 ---
 name: sample-webapp-using-redis
-dependencies:
-- golang-1-linux
+dependencies: []
 
 files: [sample-webapp-using-redis/**/*]

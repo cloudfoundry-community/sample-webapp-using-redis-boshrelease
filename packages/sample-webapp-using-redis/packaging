@@ -2,11 +2,4 @@
 
 set -eux
 
-source /var/vcap/packages/golang-1-linux/bosh/compile.env
-
-mkdir ${BOSH_INSTALL_TARGET}/bin
-
-(
-  cd sample-webapp-using-redis/
-  go build -o ${BOSH_INSTALL_TARGET}/bin/sample-webapp-using-redis ./...
-)
+cp -r bin ${BOSH_INSTALL_TARGET}/bin

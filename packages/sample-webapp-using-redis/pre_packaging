@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -eux
+
+(
+  export GOOS=linux
+  export GOARCH=amd64
+
+  cd sample-webapp-using-redis
+  go build -o ${BUILD_DIR}/bin/sample-webapp-using-redis ./...
+)
