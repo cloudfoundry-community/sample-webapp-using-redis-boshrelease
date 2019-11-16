@@ -41,8 +41,32 @@ fissile build release-images \
     --stemcell splatform/fissile-stemcell-opensuse:42.3-38.g82067a9-30.95 \
     --name sample-webapp-using-redis \
     --version $(bosh int <(tar Oxzf tmp/sample-webapp-using-redis-*.tgz release.MF) --path /version) \
-    --url tmp/sample-webapp-using-redis-*.tgz \
+    --url file://$PWD/$(ls tmp/sample-webapp-using-redis-*.tgz) \
     --sha1 $(sha1sum tmp/sample-webapp-using-redis-*.tgz | awk '{print $1}') \
     -w $PWD/tmp/fissile \
-    --final-releases-dir releases
+    --final-releases-dir $PWD/tmp/releases
+```
+
+Output looks similar to:
+
+```plain
+Image Name: sample-webapp-using-redis:opensuse-42.3-38.g82067a9-30.95-7.0.0_360.g0ec8d681-1.0.1
+compile: sample-webapp-using-redis/sample-webapp-using-redis
+compiling
+done:    sample-webapp-using-redis/sample-webapp-using-redis
+result   > success: sample-webapp-using-redis/sample-webapp-using-redis
+Creating Dockerfile for release sample-webapp-using-redis ...
+Building docker image of sample-webapp-using-redis...
+```
+
+We can now confirm that the `sample-webapp-using-redis` CLI is installed as a BOSH package under its `bin/` folder:
+
+```plain
+$ docker run -ti \
+  sample-webapp-using-redis:opensuse-42.3-38.g82067a9-30.95-7.0.0_360.g0ec8d681-1.0.1 \
+  ls -lR /var/vcap/packages/sample-webapp-using-redis/bin
+
+/var/vcap/packages/sample-webapp-using-redis/bin:
+total 8868
+-rwxr-xr-x 1 root root 9080804 Nov 16 22:56 sample-webapp-using-redis
 ```
