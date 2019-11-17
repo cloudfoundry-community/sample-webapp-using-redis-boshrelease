@@ -23,6 +23,11 @@ meta:
     access_key:  ((aws-access-key))
     secret_key:  ((aws-secret-key))
 
+  docker:
+    registry: index.docker.io
+    username: ((docker-hub-username))
+    password: ((docker-hub-password))
+
   github:
     owner:  cloudfoundry-community
     repo:   (( grab meta.pipeline ))
@@ -37,3 +42,75 @@ meta:
     channel:       (( concat meta.name "-boshrelease" ))
     blob_success:  '(( concat ": New version of  was detected, and updated in master. <" meta.url "/teams//pipelines/| Cut a new release?>" ))'
     blob_failure:  '(( concat ": :airplane_arriving: <" meta.url "/teams//pipelines//jobs//builds/| Failed to update the blob for >" ))'
+
+groups:
+- name: quarks
+  jobs:
+  - build-image
+
+jobs:
+- name: build-image
+  public: true
+  plan:
+  - { get: git }
+  - { get: github, trigger: true}
+  - task: fissile-build-release-images
+    privileged: true
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: (( grab meta.image.name ))
+          tag:        (( grab meta.image.tag ))
+      inputs:
+      - { name: git }
+      - { name: github }
+      params:
+        NAME: (( grab meta.name ))
+        DOCKER_ORG: cfcommunity
+        FISSILE_STEMCELL: splatform/fissile-stemcell-opensuse:42.3-38.g82067a9-30.95
+        DOCKER_REGISTRY: (( grab meta.docker.registry ))
+        DOCKER_USERNAME: (( grab meta.docker.username ))
+        DOCKER_PASSWORD: (( grab meta.docker.password ))
+      run:
+        path: sh
+        args:
+        - -ce
+        - |
+          set -o errexit -o nounset
+
+          GREEN='\033[0;32m'
+          NC='\033[0m'
+
+          curl -o - https://cf-opensusefs2.s3.amazonaws.com/fissile/develop/fissile-7.0.0%2B360.g0ec8d681.linux-amd64.tgz | \
+            tar xzf - fissile
+          mv fissile /usr/bin
+          fissile version
+
+          build_args=(
+            --docker-organization="$DOCKER_ORG"
+            --docker-registry="${DOCKER_REGISTRY:?required}"
+            --stemcell="$FISSILE_STEMCELL"
+            --name="$NAME"
+            --version=$(cat github/version)
+            --url=file://$PWD/$(ls github/*.tgz)
+            --sha1=$(sha1sum github/*.tgz | awk '{print $1}')
+          )
+
+          built_image=$(fissile build release-images --dry-run "${build_args[@]}" | cut -d' ' -f3)
+          built_image_tag="${built_image#*:}"
+          docker_creds_string=""${DOCKER_USERNAME:?required}":"${DOCKER_PASSWORD:?required}""
+
+          # Check if there is an image already pushed for the release being built, otherwise push.
+          if curl --silent -u "${docker_creds_string}" "https://"${DOCKER_REGISTRY}"/v2/"${DOCKER_ORG}"/"${NAME}"/manifests/"${built_image_tag}"" | jq '.errors[0].code' | grep -q null; then
+            echo -e "Skipping push for ${GREEN}${built_image}${NC} as it is already present in the registry..."
+          else
+            # Build the release image.
+            fissile build release-images "${build_args[@]}"
+
+            echo -e "Built image: ${GREEN}${built_image}${NC}"
+            docker push "${built_image}"
+            docker rmi "${built_image}"
+          fi
+

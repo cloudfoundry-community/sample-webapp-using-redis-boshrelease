@@ -38,6 +38,7 @@ bosh create-release \
     --tarball tmp/sample-webapp-using-redis-1.0.0.tgz
 
 fissile build release-images \
+    --docker-organization cfcommunity \
     --stemcell splatform/fissile-stemcell-opensuse:42.3-38.g82067a9-30.95 \
     --name sample-webapp-using-redis \
     --version $(bosh int <(tar Oxzf tmp/sample-webapp-using-redis-*.tgz release.MF) --path /version) \
@@ -50,7 +51,7 @@ fissile build release-images \
 Output looks similar to:
 
 ```plain
-Image Name: sample-webapp-using-redis:opensuse-42.3-38.g82067a9-30.95-7.0.0_360.g0ec8d681-1.0.1
+Image Name: cfcommunity/sample-webapp-using-redis:opensuse-42.3-38.g82067a9-30.95-7.0.0_360.g0ec8d681-1.0.1
 compile: sample-webapp-using-redis/sample-webapp-using-redis
 compiling
 done:    sample-webapp-using-redis/sample-webapp-using-redis
