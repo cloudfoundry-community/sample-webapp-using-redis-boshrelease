@@ -86,3 +86,20 @@ $ docker run -ti \
 total 8868
 -rwxr-xr-x 1 root root 9080804 Nov 16 22:56 sample-webapp-using-redis
 ```
+
+### Update Helm Chart
+
+When a new version of the BOSH release is created, in addition to creating the new OCI above with `fissile`, we need to update the Helm chart to use it.
+
+Update the Helm chart's base manifest:
+
+```plain
+cp manifests/sample-webapp-using-redis.yml quarks/helm/sample-webapp-using-redis/assets/
+```
+
+Next, update the `quarks/helm/sample-webapp-using-redis/Chart.yaml` with the new version:
+
+```yaml
+version: 1.0.1
+appVersion: 1.0.1
+```
