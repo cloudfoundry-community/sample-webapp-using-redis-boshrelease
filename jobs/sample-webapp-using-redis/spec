@@ -15,3 +15,6 @@ properties:
   port:
     description: Bind to this port
     default: 8080
+  counter_key:
+    description: Redis key used for integer counter
+    default: counter

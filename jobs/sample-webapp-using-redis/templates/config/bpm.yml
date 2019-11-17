@@ -6,7 +6,8 @@ processes:
   ephemeral_disk: true
   persistent_disk: false
   env:
-    PORT: <%= p("port") %>
+    PORT: "<%= p('port') %>"
+    REDIS_COUNTER_KEY: "<%= p('counter_key') %>"
     REDIS_HOST: "<%= link('redis').instances[0].address %>"
     REDIS_PORT: "<%= link('redis').p('port') %>"
     REDIS_PASSWORD: "<%= link('redis').p('password') %>"
