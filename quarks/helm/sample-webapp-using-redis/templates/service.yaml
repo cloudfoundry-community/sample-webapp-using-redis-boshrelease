@@ -9,8 +9,8 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   selector:
-    fissile.cloudfoundry.org/instance-group-name: webapp
-    fissile.cloudfoundry.org/deployment-name: {{ .Values.deployment_name }}
+    quarks.cloudfoundry.org/instance-group-name: webapp
+    quarks.cloudfoundry.org/deployment-name: {{ .Values.deployment_name }}
   ports:
     - protocol: TCP
       port: {{ .Values.service.port }}

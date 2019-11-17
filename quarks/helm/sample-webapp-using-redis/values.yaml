@@ -1,5 +1,3 @@
-deployment_name: sample-webapp-using-redis-deployment
-
 quarks:
   apiVersion: fissile.cloudfoundry.org/v1alpha1
 

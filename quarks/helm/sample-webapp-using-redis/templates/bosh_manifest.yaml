@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: sample-webapp-using-redis-bosh-manifest
+  name: "{{- include "quarks.fullname" . -}}-bosh-manifest"
   labels:
     {{- include "quarks.labels" . | nindent 4 }}
 data:

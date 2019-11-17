@@ -1,9 +1,10 @@
 {{- $root := . -}}
+{{- $fullname := (include "quarks.fullname" $root) -}}
 ---
 apiVersion: {{ .Values.quarks.apiVersion }}
 kind: BOSHDeployment
 metadata:
-  name: {{ .Values.deployment_name }}
+  name: {{- include "quarks.fullname" . -}}
   labels:
     {{- include "quarks.labels" . | nindent 4 }}
 spec:
@@ -12,7 +13,7 @@ spec:
     type: configmap
   ops:
 {{- range $path, $bytes := .Files.Glob "assets/operations/*" }}
-  - name: {{ include "quarks.ops-name" $path }}
+  - name: {{ include "quarks.ops-name" (dict "OpsPath" $path "Fullname" $fullname) }}
     type: configmap
 {{- end }}
 {{- range $_, $ops := .Values.operations.custom }}

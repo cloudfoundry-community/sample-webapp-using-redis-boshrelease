@@ -66,7 +66,7 @@ Create the name of the service account to use
 Get the metadata name for an ops file.
 */}}
 {{- define "quarks.ops-name" -}}
-{{- printf "ops-%s" (base . | trimSuffix (ext .) | lower | replace "_" "-") -}}
+{{- printf "%s-ops-%s" .Fullname (base .OpsPath | trimSuffix (ext .OpsPath) | lower | replace "_" "-") -}}
 {{- end -}}
 
 {{- /*

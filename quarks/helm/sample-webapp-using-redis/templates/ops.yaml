@@ -4,7 +4,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "quarks.ops-name" .Path }}
+  name: {{ include "quarks.ops-name" (dict "OpsPath" .Path "Fullname" .Fullname) }}
   labels:
     app.kubernetes.io/component: operations
     # missing labels as .Chart.Name fails for unknown reason
@@ -14,6 +14,7 @@ data:
 {{- end -}}
 
 {{- $root := . -}}
+{{- $fullname := (include "quarks.fullname" $root) -}}
 {{- range $path, $bytes := .Files.Glob "assets/operations/*" }}
-{{ include "quarks.ops" (dict "Root" $root "Path" $path) }}
+{{ include "quarks.ops" (dict "Root" $root "Path" $path "Fullname" $fullname) }}
 {{- end }}
