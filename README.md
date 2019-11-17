@@ -97,9 +97,8 @@ Update the Helm chart's base manifest:
 cp manifests/sample-webapp-using-redis.yml quarks/helm/sample-webapp-using-redis/assets/
 ```
 
-Next, update the `quarks/helm/sample-webapp-using-redis/Chart.yaml` with the new version:
+Next, update the `quarks/helm/sample-webapp-using-redis/Chart.yaml` with the new BOSH release "app" version:
 
 ```yaml
-version: 1.0.1
 appVersion: 1.0.1
 ```
