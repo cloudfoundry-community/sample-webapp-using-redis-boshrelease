@@ -1,0 +1,21 @@
+- type: remove
+  path: /releases/name=sample-webapp-using-redis/sha1
+- type: replace
+  path: /releases/name=sample-webapp-using-redis/url
+  value: {{ .Values.releases.defaults.webapp.url | quote }}
+- type: replace
+  path: /releases/name=sample-webapp-using-redis/stemcell
+  value:
+    os: {{ .Values.releases.defaults.webapp.stemcell.os | quote }}
+    version: {{ .Values.releases.defaults.webapp.stemcell.version | quote }}
+
+- type: remove
+  path: /releases/name=redis/sha1
+- type: replace
+  path: /releases/name=redis/url
+  value: {{ .Values.releases.defaults.redis.url | quote }}
+- type: replace
+  path: /releases/name=redis/stemcell
+  value:
+    os: {{ .Values.releases.defaults.redis.stemcell.os | quote }}
+    version: {{ .Values.releases.defaults.redis.stemcell.version | quote }}

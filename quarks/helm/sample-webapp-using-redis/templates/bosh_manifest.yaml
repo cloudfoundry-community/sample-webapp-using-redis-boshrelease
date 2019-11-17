@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sample-webapp-using-redis-bosh-manifest
+  labels:
+    {{- include "quarks.labels" . | nindent 4 }}
+data:
+  manifest: |-
+    {{- .Files.Get "assets/sample-webapp-using-redis.yml" | nindent 4 }}

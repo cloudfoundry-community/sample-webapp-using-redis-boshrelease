@@ -1,0 +1,21 @@
+{{- $root := . -}}
+---
+apiVersion: fissile.cloudfoundry.org/v1alpha1
+kind: BOSHDeployment
+metadata:
+  name: {{ .Values.deployment_name }}
+  labels:
+    {{- include "quarks.labels" . | nindent 4 }}
+spec:
+  manifest:
+    name: sample-webapp-using-redis-bosh-manifest
+    type: configmap
+  ops:
+{{- range $path, $bytes := .Files.Glob "assets/operations/*" }}
+  - name: {{ include "quarks.ops-name" $path }}
+    type: configmap
+{{- end }}
+{{- range $_, $ops := .Values.operations.custom }}
+  - name: {{ $ops | quote }}
+    type: configmap
+{{- end }}
