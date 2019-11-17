@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ops-alternate-counter-key
+data:
+  ops: |-
+    - type: replace
+      path: /instance_groups/name=webapp/jobs/name=sample-webapp-using-redis/properties/counter_key?
+      value: new-counter-key

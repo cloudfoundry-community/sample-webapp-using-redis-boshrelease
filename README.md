@@ -102,3 +102,70 @@ Next, update the `quarks/helm/sample-webapp-using-redis/Chart.yaml` with the new
 ```yaml
 appVersion: 1.0.1
 ```
+
+### Using additional BOSH operator
+
+The helm chart installs all the operators in `quarks/helm/sample-webapp-using-redis/assets/operations` folder, and also applies them all to the `BOSHDeployment`.
+
+We can also add custom BOSH operator patches as additional `ConfigMaps`, and edit the `BOSHDeployment` to use them.
+
+There is an example in `quarks/helm/sample-webapp-using-redis/assets/example-operations/` folder.
+
+The `alternate-counter-key.yml` file is an original BOSH operations file that would patch the `webapp` properties to set the `counter_key` job property.
+
+For us to apply it to our Quarks-deployed `BOSHDeployment`, we need to package it as a ConfigMap, and then edit the BOSHDeployment to use this ConfigMapped ops file.
+
+The `cm-alternate-counter-key.yaml` file is ready with the ops patch already included at `data.ops` key:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ops-alternate-counter-key
+data:
+  ops: |-
+    - type: replace
+      path: /instance_groups/name=webapp/jobs/name=sample-webapp-using-redis/properties/counter_key?
+      value: new-counter-key
+```
+
+To install the ops cm file into Kubernetes:
+
+```plain
+kubectl apply -f quarks/helm/sample-webapp-using-redis/assets/example-operations/cm-alternate-counter-key.yaml
+```
+
+Now we can edit the `BOSHDeployment`...
+
+```plain
+kubectl edit boshdeployment sample-webapp-using-redis-deployment
+```
+
+And add `ops-alternate-counter-key` to the list of operations to apply to the base manifest:
+
+```yaml
+spec:
+  manifest:
+    name: sample-webapp-using-redis-bosh-manifest
+    type: configmap
+  ops:
+  - name: ops-manifest-cleanup-for-quarks
+    type: configmap
+  - name: ops-redis
+    type: configmap
+  - name: ops-release-images
+    type: configmap
+  - name: ops-alternate-counter-key
+    type: configmap
+```
+
+Once we complete the edit, Quarks/cf-operator will create a new pair of statefulsets -- one for each instance group -- and update the pods.
+
+When we ping our webapp service we see that it is now using a new Redis key for the counter, and the counter has been reset to 1:
+
+```plain
+$ curl webapp.scf.svc.cluster.local:8080
+new-counter-key=1
+$ curl webapp.scf.svc.cluster.local:8080
+new-counter-key=2
+```
