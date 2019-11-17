@@ -1,0 +1,16 @@
+deployment_name: sample-webapp-using-redis-deployment
+
+releases:
+  # The defaults for all releases, where we do not otherwise override them.
+  defaults:
+    url: docker.io/cfcommunity
+    stemcell:
+      os: opensuse-42.3 # stemcell.os UPDATED BY CI
+      version: 38.g82067a9-30.95-7.0.0_360.g0ec8d681 # stemcell.version UPDATED BY CI
+
+cluster:
+  instances: 1
+
+operations:
+  # A list of configmap names that should be applied to the BOSH manifest.
+  custom: []
