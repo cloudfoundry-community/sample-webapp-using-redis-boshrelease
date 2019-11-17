@@ -7,7 +7,7 @@ metadata:
     {{- include "quarks.labels" . | nindent 4 }}
     app.kubernetes.io/component: "service"
 spec:
-  type: ClusterIP
+  type: {{ .Values.service.type }}
   selector:
     fissile.cloudfoundry.org/instance-group-name: sample-webapp-using-redis
     fissile.cloudfoundry.org/deployment-name: {{ .Values.deployment_name }}

@@ -9,6 +9,7 @@ releases:
       version: 38.g82067a9-30.95-7.0.0_360.g0ec8d681 # stemcell.version UPDATED BY CI
 
 service:
+  type: ClusterIP
   port: 8080
 
 cluster:

@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: "{{ include "quarks.fullname" . }}-test-connection"
   labels:
-{{ include "quarks.labels" . | nindent 4 }}
+    {{- include "quarks.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test-success
 spec:
