@@ -44,15 +44,15 @@ If you are testing this chart against latest cf-operator, then you can select th
 helm install quarks/helm/sample-webapp-using-redis --generate-name -n scf \
     --set quarks.apiVersion=quarks.cloudfoundry.org/v1alpha1
 ```
+
 ### Create Fissile image
 
-```plain
-bosh create-release \
-    releases/sample-webapp-using-redis/sample-webapp-using-redis-1.0.0.yml \
-    --tarball tmp/sample-webapp-using-redis-1.0.0.tgz
+Download latest release `.tgz` into `tmp/` directory.
 
+```plain
 fissile build release-images \
     --stemcell splatform/fissile-stemcell-opensuse:42.3-38.g82067a9-30.95 \
+    --docker-organization cfcommunity \
     --name sample-webapp-using-redis \
     --version $(bosh int <(tar Oxzf tmp/sample-webapp-using-redis-*.tgz release.MF) --path /version) \
     --url file://$PWD/$(ls tmp/sample-webapp-using-redis-*.tgz) \
