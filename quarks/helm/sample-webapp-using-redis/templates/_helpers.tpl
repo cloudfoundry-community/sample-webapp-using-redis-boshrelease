@@ -32,26 +32,32 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
-Get the metadata name for an ops file.
+Common labels
 */}}
-{{- define "quarks.ops-name" -}}
-{{- printf "ops-%s" (base . | trimSuffix (ext .) | lower | replace "_" "-") -}}
+{{- define "quarks.labels" -}}
+helm.sh/chart: {{ include "quarks.chart" . }}
+{{ include "quarks.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
-{{- /*
-  Template "quarks.dig" takes a dict and a list; it indexes the dict with each
-  successive element of the list.
+{{/*
+Selector labels
+*/}}
+{{- define "quarks.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "quarks.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
 
-  For example, given (using JSON prepresentations)
-    $a = { foo: { bar: { baz: 1 } } }
-    $b = [ foo bar baz ]
-  Then `template "quarks.dig" $a $b` will return "1".
-
-  Note that if the key is missing there will be a rendering error.
-*/ -}}
-{{- define "quarks.dig" }}
-{{- $obj := first . }}
-{{- $keys := last . }}
-{{- range $key := $keys }}{{ $obj = index $obj $key }}{{ end }}
-{{- $obj | quote }}
-{{- end }}
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "quarks.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create -}}
+    {{ default (include "quarks.fullname" .) .Values.serviceAccount.name }}
+{{- else -}}
+    {{ default "default" .Values.serviceAccount.name }}
+{{- end -}}
+{{- end -}}

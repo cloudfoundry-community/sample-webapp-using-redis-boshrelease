@@ -4,12 +4,8 @@ kind: Service
 metadata:
   name: {{ .Release.Name | quote }}
   labels:
+    {{- include "quarks.labels" . | nindent 4 }}
     app.kubernetes.io/component: "service"
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/name: {{ default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" | quote }}
-    app.kubernetes.io/version: {{ default .Chart.Version .Chart.AppVersion | quote }}
-    helm.sh/chart: {{ printf "%s-%s" .Chart.Name (.Chart.Version | replace "+" "_") | quote }}
 spec:
   type: ClusterIP
   selector:
@@ -17,5 +13,5 @@ spec:
     fissile.cloudfoundry.org/deployment-name: {{ .Values.deployment_name }}
   ports:
     - protocol: TCP
-      port: 8080
+      port: {{ .Values.service.port }}
       targetPort: 8080
