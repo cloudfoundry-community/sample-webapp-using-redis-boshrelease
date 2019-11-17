@@ -30,6 +30,20 @@ bosh deploy sample-webapp-using-redis-boshrelease/manifests/sample-webapp-using-
 
 ## Kubernetes
 
+## Deploy to Quarks
+
+```plain
+helm install quarks/helm/sample-webapp-using-redis --generate-name -n scf
+```
+
+The helm chart currently assumes an older cf-operator with CRD's `fissile.cloudfoundry.org`.
+
+If you are testing this chart against latest cf-operator, then you can select the new apiVersion:
+
+```plain
+helm install quarks/helm/sample-webapp-using-redis --generate-name -n scf \
+    --set quarks.apiVersion=quarks.cloudfoundry.org/v1alpha1
+```
 ### Create Fissile image
 
 ```plain

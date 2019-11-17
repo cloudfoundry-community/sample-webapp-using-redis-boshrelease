@@ -1,5 +1,8 @@
 deployment_name: sample-webapp-using-redis-deployment
 
+quarks:
+  apiVersion: fissile.cloudfoundry.org/v1alpha1
+
 releases:
   # The defaults for all releases, where we do not otherwise override them.
   defaults:
