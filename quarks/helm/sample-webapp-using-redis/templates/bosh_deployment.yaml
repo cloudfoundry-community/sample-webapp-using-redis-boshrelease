@@ -9,7 +9,7 @@ metadata:
     {{- include "quarks.labels" . | nindent 4 }}
 spec:
   manifest:
-    name: sample-webapp-using-redis-bosh-manifest
+    name: "{{- include "quarks.fullname" . -}}-bosh-manifest"
     type: configmap
   ops:
 {{- range $path, $bytes := .Files.Glob "assets/operations/*" }}
