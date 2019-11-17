@@ -169,3 +169,11 @@ new-counter-key=1
 $ curl webapp.scf.svc.cluster.local:8080
 new-counter-key=2
 ```
+
+### Additional BOSH operations via Helm upgrade
+
+Alternately, we can upgrade our BOSHDeployment to use additional operations via a Helm value:
+
+```plain
+helm upgrade webapp quarks/helm/sample-webapp-using-redis --set operations.custom={ops-alternate-counter-key}
+```
