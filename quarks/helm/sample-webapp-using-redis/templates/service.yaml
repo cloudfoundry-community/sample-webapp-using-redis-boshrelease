@@ -2,15 +2,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name | quote }}
+  name: {{ include "quarks.fullname" . }}
   labels:
     {{- include "quarks.labels" . | nindent 4 }}
     app.kubernetes.io/component: "service"
 spec:
   type: {{ .Values.service.type }}
   selector:
-    quarks.cloudfoundry.org/instance-group-name: webapp
-    quarks.cloudfoundry.org/deployment-name: {{ .Values.deployment_name }}
+    fissile.cloudfoundry.org/instance-group-name: webapp
+    fissile.cloudfoundry.org/deployment-name: {{ include "quarks.fullname" . }}
   ports:
     - protocol: TCP
       port: {{ .Values.service.port }}

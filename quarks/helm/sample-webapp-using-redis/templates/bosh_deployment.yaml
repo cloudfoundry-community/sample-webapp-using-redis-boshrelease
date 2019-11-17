@@ -4,7 +4,7 @@
 apiVersion: {{ .Values.quarks.apiVersion }}
 kind: BOSHDeployment
 metadata:
-  name: {{- include "quarks.fullname" . -}}
+  name: {{ include "quarks.fullname" . }}
   labels:
     {{- include "quarks.labels" . | nindent 4 }}
 spec:
