@@ -45,6 +45,8 @@ fissile build release-images \
     --sha1 $(sha1sum tmp/sample-webapp-using-redis-*.tgz | awk '{print $1}') \
     -w $PWD/tmp/fissile \
     --final-releases-dir $PWD/tmp/releases
+
+docker push cfcommunity/sample-webapp-using-redis:<tag>
 ```
 
 Output looks similar to:
