@@ -33,7 +33,8 @@ bosh deploy sample-webapp-using-redis-boshrelease/manifests/sample-webapp-using-
 ## Deploy to Quarks
 
 ```plain
-helm upgrade -i quarks/helm/sample-webapp-using-redis --generate-name -n kubecf
+helm upgrade --install sample-webapp-using-redis  -n kubecf \
+    quarks/helm/sample-webapp-using-redis
 ```
 
 ### Create Fissile image
@@ -167,4 +168,32 @@ Alternately, we can upgrade our BOSHDeployment to use additional operations via 
 
 ```plain
 helm upgrade webapp quarks/helm/sample-webapp-using-redis --set operations.custom={ops-alternate-counter-key}
+```
+
+### Delete Helm deployment
+
+To delete the deployment resources, and the resulting running pods:
+
+```plain
+helm delete sample-webapp-using-redis -n kubecf
+```
+
+Note, the persistent volumes (and claim) are not deleted:
+
+```plain
+kubectl get pv,pvc -n kubecf
+NAME                                                        CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                                                                          STORAGECLASS   REASON   AGE
+persistentvolume/pvc-d9ed4049-01f1-4903-92a2-47bc533c0226   10Gi       RWO            Delete           Bound    kubecf/sample-webapp-using-redis-redis-pvc-sample-webapp-using-redis-redis-0   standard                2m57s
+
+NAME                                                                                          STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+persistentvolumeclaim/sample-webapp-using-redis-redis-pvc-sample-webapp-using-redis-redis-0   Bound    pvc-d9ed4049-01f1-4903-92a2-47bc533c0226   10Gi       RWO            standard       3m
+```
+
+These will be reused if you re-deploy your release with the same name.
+
+To delete the volume and claim, delete the claim:
+
+```plain
+kubectl delete pvc -n kubecf \
+  sample-webapp-using-redis-redis-pvc-sample-webapp-using-redis-redis-0
 ```
