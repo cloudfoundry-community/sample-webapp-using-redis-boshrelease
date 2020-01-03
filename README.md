@@ -33,7 +33,7 @@ bosh deploy sample-webapp-using-redis-boshrelease/manifests/sample-webapp-using-
 ## Deploy to Quarks
 
 ```plain
-helm install quarks/helm/sample-webapp-using-redis --generate-name -n scf
+helm install quarks/helm/sample-webapp-using-redis --generate-name -n kubecf
 ```
 
 The helm chart currently assumes an older cf-operator with CRD's `fissile.cloudfoundry.org`.
@@ -41,7 +41,7 @@ The helm chart currently assumes an older cf-operator with CRD's `fissile.cloudf
 If you are testing this chart against latest cf-operator, then you can select the new apiVersion:
 
 ```plain
-helm install quarks/helm/sample-webapp-using-redis --generate-name -n scf \
+helm install quarks/helm/sample-webapp-using-redis --generate-name -n kubecf \
     --set quarks.apiVersion=quarks.cloudfoundry.org/v1alpha1
 ```
 
@@ -164,9 +164,9 @@ Once we complete the edit, Quarks/cf-operator will create a new pair of stateful
 When we ping our webapp service we see that it is now using a new Redis key for the counter, and the counter has been reset to 1:
 
 ```plain
-$ curl webapp.scf.svc.cluster.local:8080
+$ curl webapp.kubecf.svc.cluster.local:8080
 new-counter-key=1
-$ curl webapp.scf.svc.cluster.local:8080
+$ curl webapp.kubecf.svc.cluster.local:8080
 new-counter-key=2
 ```
 
